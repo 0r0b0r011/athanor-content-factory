@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "QA Report",
+  "description": "Quality assurance scoring for a completed content artifact.",
+  "type": "object",
+  "required": ["project_id", "artifact_id", "scores", "required_fixes"],
+  "properties": {
+    "project_id": { "type": "string" },
+    "artifact_id": { "type": "string" },
+    "reviewer": { "type": "string", "description": "Worker name or human reviewer" },
+    "scores": {
+      "type": "object",
+      "properties": {
+        "learning_accuracy": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "developmental_fit": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "cognitive_load": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "resonance": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "ethics": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "adult_trust": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "transmedia_coherence": { "type": "integer", "minimum": 0, "maximum": 100 }
+      },
+      "minProperties": 1
+    },
+    "required_fixes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["severity", "description"],
+        "properties": {
+          "severity": { "type": "string", "enum": ["blocker", "major", "minor", "suggestion"] },
+          "description": { "type": "string" },
+          "location": { "type": "string" },
+          "fix_proposal": { "type": "string" }
+        }
+      }
+    },
+    "passed": { "type": "boolean" },
+    "blocked": { "type": "boolean", "description": "True if release blocked" },
+    "block_reasons": { "type": "array", "items": { "type": "string" } }
+  }
+}

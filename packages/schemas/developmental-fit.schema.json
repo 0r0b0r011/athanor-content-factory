@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Developmental Fit",
+  "description": "Age-band constraints that the content must satisfy.",
+  "type": "object",
+  "required": ["age_band", "language_ceiling", "cognitive_constraints", "emotional_drivers", "pacing_rules", "avoid"],
+  "properties": {
+    "age_band": { "type": "string" },
+    "language_ceiling": { "type": "string", "description": "Max vocabulary/sentence complexity" },
+    "cognitive_constraints": {
+      "type": "object",
+      "properties": {
+        "working_memory_limit": { "type": "string" },
+        "abstraction_cap": { "type": "string" },
+        "time_perception": { "type": "string" },
+        "theory_of_mind": { "type": "string" }
+      }
+    },
+    "emotional_drivers": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "pacing_rules": {
+      "type": "object",
+      "properties": {
+        "max_scene_duration_seconds": { "type": "integer" },
+        "max_word_count": { "type": "integer" },
+        "ritual_frequency": { "type": "string" }
+      }
+    },
+    "humor_rules": { "type": "string" },
+    "ambiguity_rules": { "type": "string" },
+    "avoid": { "type": "array", "items": { "type": "string" } },
+    "required_supports": { "type": "array", "items": { "type": "string" } }
+  }
+}

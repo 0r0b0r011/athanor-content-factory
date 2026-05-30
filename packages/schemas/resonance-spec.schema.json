@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Resonance Spec",
+  "description": "Emotional resonance blueprint for the content.",
+  "type": "object",
+  "required": ["hook", "mystery", "symbolic_object", "ritual", "identity_reward", "replay_reason"],
+  "properties": {
+    "hook": { "type": "string", "description": "The emotional entry point" },
+    "primary_hook_type": { "type": "string", "enum": ["discovery", "competence", "belonging", "purpose", "mystery", "creation", "fairness"] },
+    "mystery": { "type": "string", "description": "The curiosity gap" },
+    "symbolic_object": { "type": "string", "description": "Tangible anchor for the concept" },
+    "ritual": { "type": "string", "description": "Recurring learner action" },
+    "identity_reward": { "type": "string", "description": "What identity the learner gains by understanding" },
+    "quoteable_phrase": { "type": "string", "description": "Memorable line kids will repeat" },
+    "social_transmission": { "type": "string", "description": "How it spreads between peers" },
+    "replay_reason": { "type": "string" },
+    "ethical_risk": { "type": "string", "description": "Potential manipulation vectors to avoid" }
+  }
+}

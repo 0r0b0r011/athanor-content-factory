@@ -1,0 +1,23 @@
+{
+  "name": "athanor-factory",
+  "version": "0.1.0",
+  "description": "Developmental Resonance Engine + Educational Story Genome — intent-to-content factory",
+  "private": true,
+  "scripts": {
+    "athanor:create": "node apps/cli/athanor.mjs create",
+    "athanor:research": "node apps/cli/athanor.mjs research",
+    "athanor:genome": "node apps/cli/athanor.mjs genome",
+    "athanor:resonance": "node apps/cli/athanor.mjs resonance",
+    "athanor:worldbuild": "node apps/cli/athanor.mjs worldbuild",
+    "athanor:characters": "node apps/cli/athanor.mjs characters",
+    "athanor:timeline": "node apps/cli/athanor.mjs timeline",
+    "athanor:format": "node apps/cli/athanor.mjs format",
+    "athanor:assets": "node apps/cli/athanor.mjs assets",
+    "athanor:render": "node apps/cli/athanor.mjs render",
+    "athanor:validate": "node apps/cli/athanor.mjs validate",
+    "athanor:publish": "node apps/cli/athanor.mjs publish",
+    "athanor:feedback": "node apps/cli/athanor.mjs feedback",
+    "athanor:status": "node apps/cli/athanor.mjs status",
+    "athanor:gate": "node apps/cli/athanor.mjs gate"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Production State Machine",
+  "description": "Canonical state machine for project lifecycle. No state may be skipped.",
+  "type": "object",
+  "required": ["project_id", "current_state", "state_history"],
+  "properties": {
+    "project_id": { "type": "string" },
+    "current_state": {
+      "type": "string",
+      "enum": [
+        "intent_defined",
+        "research_complete",
+        "genome_complete",
+        "resonance_approved",
+        "world_bible_complete",
+        "characters_complete",
+        "timeline_complete",
+        "format_outputs_ready",
+        "assets_planned",
+        "draft_rendered",
+        "qa_passed",
+        "published",
+        "feedback_collected",
+        "genome_updated"
+      ]
+    },
+    "state_history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "state": { "type": "string" },
+          "timestamp": { "type": "string", "format": "date-time" },
+          "artifacts": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "gate_results": {
+      "type": "object",
+      "properties": {
+        "concept_gate": { "type": "object", "properties": { "passed": { "type": "boolean" }, "notes": { "type": "string" } } },
+        "genome_gate": { "type": "object", "properties": { "passed": { "type": "boolean" }, "notes": { "type": "string" } } },
+        "story_gate": { "type": "object", "properties": { "passed": { "type": "boolean" }, "notes": { "type": "string" } } },
+        "production_gate": { "type": "object", "properties": { "passed": { "type": "boolean" }, "notes": { "type": "string" } } },
+        "release_gate": { "type": "object", "properties": { "passed": { "type": "boolean" }, "notes": { "type": "string" } } }
+      }
+    }
+  }
+}

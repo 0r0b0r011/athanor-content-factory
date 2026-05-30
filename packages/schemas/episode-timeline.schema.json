@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Episode Timeline",
+  "description": "Beat-by-beat narrative structure tied to learning progression.",
+  "type": "object",
+  "required": ["project_id", "beats"],
+  "properties": {
+    "project_id": { "type": "string" },
+    "episode_title": { "type": "string" },
+    "episode_number": { "type": "integer" },
+    "total_duration_estimate": { "type": "string" },
+    "beats": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["beat", "function", "content", "learning_role"],
+        "properties": {
+          "beat": { "type": "string", "description": "Beat name, e.g. Opening ritual, Wonder trigger, Concept reveal" },
+          "function": { "type": "string", "description": "What this beat does narratively" },
+          "content": { "type": "string", "description": "What happens in this beat" },
+          "learning_role": { "type": "string", "description": "What this beat does for learning" },
+          "duration_estimate": { "type": "string" }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+project_id: "moon-as-timekeeper"
+concept: "Moon phases as timekeeping"
+audience: "Children ages 6-8, early readers, curious about the night sky"
+learning_goal: "Learner can explain why the moon appears to change shape over a lunar cycle"
+emotional_goal: "The night sky feels readable and the child feels capable of understanding it"
+target_age_band: "6-8"
+primary_medium: "multi-format"
+constraints:
+  - "Maximum 1200 words for storybook format"
+  - "No abstract orbital geometry without embodied analogue"
+  - "No fear-based framing (the moon is not scary)"
+  - "Must work across illustrated book, short video, and classroom activity"
+success_criteria:
+  - "Child can predict the next moon phase after engaging"
+  - "Child can demonstrate the concept with a lamp and ball"
+  - "Child uses the phase wheel to track the moon for a week"
+  - "Parent/teacher can facilitate without domain expertise"

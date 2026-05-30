@@ -1,0 +1,93 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Content Genome",
+  "description": "Canonical blueprint for an educational content project. All downstream stages read from this schema; changes invalidate dependent artifacts.",
+  "type": "object",
+  "required": ["metadata", "learner_dna", "knowledge_dna", "resonance_dna", "narrative_dna", "format_dna"],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "required": ["project_id", "concept", "domain", "age_band", "primary_formats"],
+      "properties": {
+        "project_id": { "type": "string", "pattern": "^[a-z0-9_-]+$" },
+        "concept": { "type": "string", "description": "Short conceptual title" },
+        "domain": { "type": "string", "description": "Subject area, e.g. astronomy, biology, mathematics" },
+        "age_band": { "type": "string", "pattern": "^[0-9]+-[0-9]+$", "description": "e.g. 6-8, 9-12, 13-15" },
+        "primary_formats": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["illustrated chapter story", "animated short", "classroom kit", "card game", "song", "app interaction", "social clip", "parent guide"] },
+          "minItems": 1
+        }
+      }
+    },
+    "learner_dna": {
+      "type": "object",
+      "required": ["cognitive_profile", "emotional_drivers", "identity_need", "pacing", "ambiguity_tolerance", "avoid"],
+      "properties": {
+        "cognitive_profile": { "type": "string", "description": "What the learner can do cognitively at this stage" },
+        "emotional_drivers": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["competence", "discovery", "fairness", "friendship", "autonomy", "belonging", "purpose", "wonder", "mastery"] }
+        },
+        "identity_need": { "type": "string", "description": "What the learner needs to feel about themselves, e.g. 'I am becoming capable'" },
+        "pacing": { "type": "string", "description": "Rhythm and tempo of content delivery" },
+        "ambiguity_tolerance": { "type": "string", "description": "How much uncertainty the learner can handle" },
+        "avoid": { "type": "array", "items": { "type": "string" }, "description": "Anti-patterns to avoid" }
+      }
+    },
+    "knowledge_dna": {
+      "type": "object",
+      "required": ["learning_objective", "misconception", "accurate_model", "retrieval_prompt", "transfer_task", "teach_back_moment"],
+      "properties": {
+        "learning_objective": { "type": "string", "description": "What the learner will be able to do, in measurable terms" },
+        "misconception": { "type": "string", "description": "The common wrong understanding this content corrects" },
+        "accurate_model": { "type": "string", "description": "The correct scientific/educational model" },
+        "embodied_activity": { "type": "string", "description": "Physical or hands-on activity that embodies the concept" },
+        "retrieval_prompt": { "type": "string", "description": "Question that triggers recall of the concept" },
+        "transfer_task": { "type": "string", "description": "Challenge that applies the concept in a new context" },
+        "teach_back_moment": { "type": "string", "description": "Opportunity for the learner to explain to another" }
+      }
+    },
+    "resonance_dna": {
+      "type": "object",
+      "required": ["emotional_promise", "primary_hook", "central_mystery", "ritual", "symbolic_object", "replay_reason"],
+      "properties": {
+        "emotional_promise": { "type": "string", "description": "One-sentence emotional contract with the learner" },
+        "primary_hook": { "type": "string", "enum": ["discovery", "competence", "belonging", "purpose", "mystery", "creation", "fairness"] },
+        "secondary_hook": { "type": "string" },
+        "central_mystery": { "type": "string", "description": "The curiosity gap that drives engagement" },
+        "ritual": { "type": "string", "description": "Recurring action or frame the learner performs" },
+        "symbolic_object": { "type": "string", "description": "Physical or conceptual object that embodies the learning" },
+        "replay_reason": { "type": "string", "description": "Why the learner would want to revisit" }
+      }
+    },
+    "narrative_dna": {
+      "type": "object",
+      "required": ["world_law", "setting", "protagonist_need", "conflict", "failed_attempt", "concept_reveal", "aha_moment", "resolution", "next_question"],
+      "properties": {
+        "world_law": { "type": "string", "description": "The rule the world operates on" },
+        "setting": { "type": "string", "description": "Where the story takes place" },
+        "protagonist_need": { "type": "string", "description": "What the main character wants" },
+        "conflict": { "type": "string", "description": "What stands in the way" },
+        "failed_attempt": { "type": "string", "description": "What happens when they try without understanding the concept" },
+        "concept_reveal": { "type": "string", "description": "How the educational concept is discovered" },
+        "aha_moment": { "type": "string", "description": "The moment understanding crystallizes" },
+        "resolution": { "type": "string", "description": "How the concept resolves the conflict" },
+        "next_question": { "type": "string", "description": "The hook for the next episode" }
+      }
+    },
+    "format_dna": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "length": { "type": "string" },
+          "style": { "type": "string" },
+          "aspect_ratios": { "type": "array", "items": { "type": "string" } },
+          "artifacts": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    }
+  }
+}

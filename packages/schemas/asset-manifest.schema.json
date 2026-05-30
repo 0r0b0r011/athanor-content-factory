@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Asset Manifest",
+  "description": "Complete inventory of media assets needed for production.",
+  "type": "object",
+  "required": ["project_id", "visual_assets", "audio_assets", "video_assets"],
+  "properties": {
+    "project_id": { "type": "string" },
+    "visual_assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "description": { "type": "string" },
+          "format": { "type": "string", "enum": ["illustration", "background", "character_sheet", "prop", "infographic", "map"] },
+          "generation_prompt": { "type": "string" },
+          "safety_notes": { "type": "string" }
+        }
+      }
+    },
+    "audio_assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "type": { "type": "string", "enum": ["voiceover", "sfx", "music", "ambient"] },
+          "voice": { "type": "string" },
+          "line": { "type": "string" },
+          "mood": { "type": "string" },
+          "duration_estimate": { "type": "string" }
+        }
+      }
+    },
+    "video_assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "scene_id": { "type": "string" },
+          "shot": { "type": "string" },
+          "camera": { "type": "string" },
+          "motion": { "type": "string" },
+          "duration": { "type": "string" }
+        }
+      }
+    }
+  }
+}
