@@ -1,0 +1,80 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Render Provider",
+  "description": "Capability contract for render backends such as LongCat-Video, MoneyPrinterTurbo, Higgsfield, ffmpeg, Hyperframes, and TTS/avatar systems.",
+  "type": "object",
+  "required": ["name", "mode", "capabilities", "input", "output"],
+  "properties": {
+    "name": { "type": "string" },
+    "mode": {
+      "type": "string",
+      "enum": ["local_cpu", "local_gpu", "remote_api", "hybrid", "manual_handoff"]
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "text_to_video",
+          "image_to_video",
+          "video_continuation",
+          "long_video",
+          "audio_text_to_avatar_video",
+          "audio_image_to_avatar_video",
+          "multi_speaker_avatar_video",
+          "text_to_speech",
+          "speech_to_text",
+          "speech_to_speech",
+          "image_generation",
+          "video_assembly",
+          "subtitle_rendering",
+          "html_to_video",
+          "music_generation"
+        ]
+      }
+    },
+    "input": {
+      "type": "object",
+      "properties": {
+        "scene_id": { "type": "string" },
+        "prompt": { "type": "string" },
+        "negative_prompt": { "type": "string" },
+        "reference_image": { "type": "string" },
+        "reference_video": { "type": "string" },
+        "audio_tracks": { "type": "array", "items": { "type": "string" } },
+        "duration_seconds": { "type": "number" },
+        "aspect_ratio": { "type": "string" },
+        "resolution": { "type": "string" },
+        "fps": { "type": "integer" },
+        "safety_profile": { "type": "string" }
+      }
+    },
+    "output": {
+      "type": "object",
+      "properties": {
+        "artifact_path": { "type": "string" },
+        "metadata_path": { "type": "string" },
+        "render_log_path": { "type": "string" },
+        "seed": { "type": "integer" },
+        "cost": {
+          "type": "object",
+          "properties": {
+            "gpu_seconds": { "type": "number" },
+            "api_cost_usd": { "type": "number" },
+            "vram_gb_estimate": { "type": "number" }
+          }
+        }
+      }
+    },
+    "constraints": {
+      "type": "object",
+      "properties": {
+        "requires_cuda": { "type": "boolean" },
+        "requires_network": { "type": "boolean" },
+        "supports_batching": { "type": "boolean" },
+        "max_duration_seconds": { "type": "number" },
+        "notes": { "type": "string" }
+      }
+    }
+  }
+}
