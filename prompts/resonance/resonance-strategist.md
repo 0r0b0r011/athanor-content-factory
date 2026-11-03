@@ -25,6 +25,6 @@ Your ONLY job is to make the content emotionally sticky without manipulation. Yo
 
 ## Output
 
-Valid YAML matching resonance-spec.schema.json.
+Valid YAML matching resonance-spec.schema.json. `primary_hook` must be a `hook_type` value from common.schema.json. Include the `artifact` versioning header: `schema_version`, `version`, and `derived_from` pinning each input file by sha256 (`athanor hash <file>`). See docs/versioning.md.
 
 Content genome: {genome_path}

@@ -36,7 +36,7 @@ The **Developmental Resonance Engine**. Scores and optimises emotional stickines
 
 ```python
 class ResonanceEngine:
-    def score(content_genome: dict) -> dict:
+    def score(self, content_genome: dict) -> dict:
         """Return resonance_spec with scores and recommendations."""
         ...
 ```

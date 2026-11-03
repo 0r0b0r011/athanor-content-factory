@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0.0",
+  "description": "Canonical project layout. Order is the no-skip order: an artifact may only exist if every earlier stage artifact exists. schema: null means the stage has no schema yet (presence and front matter are still checked).",
+  "artifacts": [
+    { "stage": 0,  "file": "00_intent.yaml",              "schema": "intent" },
+    { "stage": 1,  "file": "01_research_pack.md",         "schema": null },
+    { "stage": 2,  "file": "02_developmental_fit.yaml",   "schema": "developmental-fit" },
+    { "stage": 3,  "file": "03_content_genome.yaml",      "schema": "content-genome" },
+    { "stage": 4,  "file": "04_resonance_spec.yaml",      "schema": "resonance-spec" },
+    { "stage": 5,  "file": "05_world_bible.md",           "schema": null },
+    { "stage": 6,  "file": "06_character_bible.md",       "schema": null },
+    { "stage": 7,  "file": "07_episode_timeline.yaml",    "schema": "episode-timeline" },
+    { "stage": 8,  "file": "08_format_plan.yaml",         "schema": null },
+    { "stage": 9,  "file": "09_asset_manifest.yaml",      "schema": "asset-manifest" },
+    { "stage": 10, "file": "10_production_manifest.yaml", "schema": null },
+    { "stage": 11, "file": "11_qa_report.yaml",           "schema": "qa-report" },
+    { "stage": 12, "file": "12_publish_manifest.yaml",    "schema": null },
+    { "stage": 13, "file": "13_feedback_log.yaml",        "schema": "feedback-log" }
+  ],
+  "other_files": [
+    { "file": "state.yaml", "schema": "production-state" }
+  ],
+  "ignored_directories": ["assets", "renders", "exports"]
+}

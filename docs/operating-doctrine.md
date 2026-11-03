@@ -20,7 +20,7 @@
 
 ### No-skip rule
 
-No project state may be skipped. Every artifact in the chain must exist and be valid before the next stage begins. The state machine enforces this.
+No project state may be skipped. Every artifact in the chain must exist and be valid before the next stage begins. `athanor validate` enforces artifact order today; the state machine will enforce transitions once `athanor gate` exists.
 
 ### System of record
 
@@ -39,16 +39,19 @@ projects/{project-name}/
   08_format_plan.yaml
   09_asset_manifest.yaml
   10_production_manifest.yaml
-  11_qa_report.md
+  11_qa_report.yaml
   12_publish_manifest.yaml
-  13_feedback_log.md
+  13_feedback_log.yaml
+  state.yaml            # production state machine record
 ```
+
+The canonical list lives in `packages/schemas/registry.json`. `athanor validate` checks every file against it.
 
 The project directory IS the source of truth. Chat history is not.
 
 ### Content genome is the invariant
 
-The `03_content_genome.yaml` file is the canonical blueprint. All downstream stages read from it. If the genome changes, downstream artifacts are invalidated and must be regenerated.
+The `03_content_genome.yaml` file is the canonical blueprint. All downstream stages read from it. Downstream artifacts pin the genome by sha256 in `artifact.derived_from`; if the genome changes, `athanor validate` reports them as stale until they are regenerated or re-reviewed. See [versioning.md](versioning.md).
 
 ### Render architecture
 
@@ -56,12 +59,13 @@ Media production backends are swappable adapters:
 
 - **MoneyPrinterTurbo** (forked) — short-video assembly
 - **Higgsfield** — premium cinematic/video generation
-- **ffmpeg/MoviePy** — deterministic assembly fallback
+- **ffmpeg/MoviePy/Hyperframes** — deterministic assembly (Tier 1 default)
+- **LongCat-Video** — local GPU generation (Tier 2)
 - **TTS providers** — voiceover generation
 - **Image generation** — visual asset creation
 - **Premiere/After Effects plugin** — manual high-quality editing
 
-All adapters share a common render manifest schema.
+All adapters share `render-provider.schema.json` and `render-job.schema.json`.
 
 ### Greenlight gates
 
@@ -80,14 +84,18 @@ A gate failure blocks the pipeline. The output is either fixed or rejected.
 Published content generates a feedback log that patches the genome:
 
 ```yaml
-feedback_update:
-  what_worked: [...]
-  what_failed: [...]
-  resonance_delta: [...]
-  learning_delta: [...]
-  format_delta: [...]
-  genome_patch: [...]
-  next_experiment: [...]
+# 13_feedback_log.yaml (feedback-log.schema.json)
+what_worked: [...]
+what_failed: [...]
+resonance_delta: [...]
+learning_delta: [...]
+format_delta: [...]
+genome_patch:            # RFC 6902 JSON Patch against 03_content_genome.yaml
+  - op: replace
+    path: /knowledge_dna/embodied_activity
+    value: "..."
+    reason: "children confused waxing and waning"
+next_experiment: "..."
 ```
 
 The patched genome seeds the next iteration or the next project.

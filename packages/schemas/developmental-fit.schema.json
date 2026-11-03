@@ -1,14 +1,19 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://athanor-content-factory.local/schemas/developmental-fit.schema.json",
   "title": "Developmental Fit",
-  "description": "Age-band constraints that the content must satisfy.",
+  "description": "Age-band constraints that the content must satisfy. File: 02_developmental_fit.yaml.",
   "type": "object",
-  "required": ["age_band", "language_ceiling", "cognitive_constraints", "emotional_drivers", "pacing_rules", "avoid"],
+  "additionalProperties": false,
+  "required": ["artifact", "project_id", "age_band", "language_ceiling", "cognitive_constraints", "emotional_drivers", "pacing_rules", "avoid"],
   "properties": {
-    "age_band": { "type": "string" },
+    "artifact": { "$ref": "common.schema.json#/definitions/artifact_meta" },
+    "project_id": { "$ref": "common.schema.json#/definitions/project_id" },
+    "age_band": { "$ref": "common.schema.json#/definitions/age_band" },
     "language_ceiling": { "type": "string", "description": "Max vocabulary/sentence complexity" },
     "cognitive_constraints": {
       "type": "object",
+      "additionalProperties": false,
       "properties": {
         "working_memory_limit": { "type": "string" },
         "abstraction_cap": { "type": "string" },
@@ -16,15 +21,13 @@
         "theory_of_mind": { "type": "string" }
       }
     },
-    "emotional_drivers": {
-      "type": "array",
-      "items": { "type": "string" }
-    },
+    "emotional_drivers": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "common.schema.json#/definitions/emotional_driver" } },
     "pacing_rules": {
       "type": "object",
+      "additionalProperties": false,
       "properties": {
-        "max_scene_duration_seconds": { "type": "integer" },
-        "max_word_count": { "type": "integer" },
+        "max_scene_duration_seconds": { "type": "integer", "minimum": 1 },
+        "max_word_count": { "type": "integer", "minimum": 1 },
         "ritual_frequency": { "type": "string" }
       }
     },

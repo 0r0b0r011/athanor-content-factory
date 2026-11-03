@@ -40,7 +40,9 @@ pnpm athanor:render moon-as-timekeeper --backend=longcat-avatar --scene=guide-ex
 
 ## Input mapping
 
-From Athanor:
+Each render request is a render job (`packages/schemas/render-job.schema.json`); the provider itself is described by `render-provider.schema.json`.
+
+From Athanor (render job `input`, plus `scene_id` and `safety_profile`):
 
 ```yaml
 scene_id: moonpost-opening
@@ -51,7 +53,7 @@ reference_image: assets/characters/guide.png
 voiceover: assets/audio/guide-line-001.wav
 resolution: 720p
 fps: 25
-safety_profile: age_6_8
+safety_profile: "6-8"   # an age band; see common.schema.json
 ```
 
 To LongCat:

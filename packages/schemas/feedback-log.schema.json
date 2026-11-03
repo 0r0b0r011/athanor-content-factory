@@ -1,17 +1,22 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://athanor-content-factory.local/schemas/feedback-log.schema.json",
   "title": "Feedback Log",
-  "description": "Post-publication feedback that patches the genome for the next iteration.",
+  "description": "Post-publication feedback that patches the genome for the next iteration. File: 13_feedback_log.yaml. genome_patch is an RFC 6902 JSON Patch against 03_content_genome.yaml; derived_from must pin the genome revision it was written against.",
   "type": "object",
-  "required": ["project_id", "what_worked", "what_failed", "genome_patch"],
+  "additionalProperties": false,
+  "required": ["artifact", "project_id", "what_worked", "what_failed", "genome_patch"],
   "properties": {
-    "project_id": { "type": "string" },
+    "artifact": { "$ref": "common.schema.json#/definitions/artifact_meta" },
+    "project_id": { "$ref": "common.schema.json#/definitions/project_id" },
     "published_version": { "type": "string" },
     "feedback_period": {
       "type": "object",
+      "additionalProperties": false,
+      "required": ["start_date", "end_date"],
       "properties": {
-        "start_date": { "type": "string" },
-        "end_date": { "type": "string" }
+        "start_date": { "type": "string", "format": "date" },
+        "end_date": { "type": "string", "format": "date" }
       }
     },
     "what_worked": { "type": "array", "items": { "type": "string" } },
@@ -19,10 +24,7 @@
     "resonance_delta": { "type": "array", "items": { "type": "string" } },
     "learning_delta": { "type": "array", "items": { "type": "string" } },
     "format_delta": { "type": "array", "items": { "type": "string" } },
-    "genome_patch": {
-      "type": "object",
-      "description": "Specific changes to apply to the content genome"
-    },
+    "genome_patch": { "$ref": "common.schema.json#/definitions/json_patch" },
     "next_experiment": { "type": "string" }
   }
 }

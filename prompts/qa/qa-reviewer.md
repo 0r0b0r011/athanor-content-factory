@@ -53,8 +53,10 @@ This is a mandatory gate. If you pass content that fails any of the checks below
 
 ## Output
 
-Produce a QA report with scores and detailed required fixes.
+Produce `11_qa_report.yaml` with all seven scores (0-100, higher is better) and detailed required fixes.
+Do not set `passed: true` if `blocked` is true or any fix has severity `blocker`; `athanor validate` rejects that.
+Include the `artifact` versioning header: `schema_version`, `version`, and `derived_from` pinning each input file by sha256 (`athanor hash <file>`). See docs/versioning.md.
 
-Validates against: schemas/qa-report.schema.json
+Validates against: packages/schemas/qa-report.schema.json
 
 Project artifacts path: {project_path}

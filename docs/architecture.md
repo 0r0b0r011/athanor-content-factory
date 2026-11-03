@@ -82,14 +82,15 @@ The genome is the canonical blueprint that everything orbits. It encodes:
 ## Worker Architecture (non-negotiable)
 
 1. No worker may skip its input validation
-2. Every output must be parseable and schema-validatable
-3. Workers may be LLM-driven, rule-based, or hybrid — the interface is the contract
-4. A worker's output is cached until its input changes
-5. No content reaches the next stage without passing its greenlight gate
+2. Every output must be parseable and schema-validatable (`athanor validate`)
+3. Every output carries an `artifact` header pinning its inputs by hash (see [versioning.md](versioning.md))
+4. Workers may be LLM-driven, rule-based, or hybrid — the interface is the contract
+5. A worker's output is reused until an input's hash changes; then it is stale
+6. No content reaches the next stage without passing its greenlight gate
 
 ## Manual-to-Autonomous Progression
 
-See ROADMAP.md for the four-phase progression from manual pilots to autonomous factory.
+See [roadmap.md](roadmap.md) for the five-phase (0–4) progression from manual pilots to autonomous factory.
 
 ### Phase 0: Manual White-Glove
 Three pilot concepts produced entirely by hand to discover the real workflow.

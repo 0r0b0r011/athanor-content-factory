@@ -21,9 +21,12 @@ Before automating anything, run 3 pilots entirely by hand to discover the real w
 7. Develop characters → `06_character_bible.md`
 8. Plan episode structure → `07_episode_timeline.yaml`
 9. Adapt for each format → `08_format_plan.yaml`
-10. Plan assets → `09_asset_manifest.yaml`
-11. Write QA report → `11_qa_report.md`
+10. Plan assets → `09_asset_manifest.yaml` (then the production manifest, `10_production_manifest.yaml`)
+11. Write QA report → `11_qa_report.yaml`
 12. Publish → `12_publish_manifest.yaml`
+13. Collect feedback → `13_feedback_log.yaml`
+
+After writing or editing each file, give it an `artifact` header pinning its inputs (`pnpm athanor hash <file>`), then run `pnpm athanor:validate <project>`. Fix every error before starting the next stage.
 
 ### What to learn
 

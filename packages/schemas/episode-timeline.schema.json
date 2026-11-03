@@ -1,28 +1,44 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://athanor-content-factory.local/schemas/episode-timeline.schema.json",
   "title": "Episode Timeline",
-  "description": "Beat-by-beat narrative structure tied to learning progression.",
+  "description": "Beat-by-beat narrative structure tied to learning progression. File: 07_episode_timeline.yaml. Every one of the eight beat types must appear at least once.",
   "type": "object",
-  "required": ["project_id", "beats"],
+  "additionalProperties": false,
+  "required": ["artifact", "project_id", "beats"],
   "properties": {
-    "project_id": { "type": "string" },
+    "artifact": { "$ref": "common.schema.json#/definitions/artifact_meta" },
+    "project_id": { "$ref": "common.schema.json#/definitions/project_id" },
     "episode_title": { "type": "string" },
-    "episode_number": { "type": "integer" },
-    "total_duration_estimate": { "type": "string" },
+    "episode_number": { "type": "integer", "minimum": 1 },
+    "total_duration_seconds": { "$ref": "common.schema.json#/definitions/duration_seconds" },
     "beats": {
       "type": "array",
-      "minItems": 3,
+      "minItems": 8,
       "items": {
         "type": "object",
-        "required": ["beat", "function", "content", "learning_role"],
+        "additionalProperties": false,
+        "required": ["id", "beat_type", "beat", "function", "content", "learning_role"],
         "properties": {
-          "beat": { "type": "string", "description": "Beat name, e.g. Opening ritual, Wonder trigger, Concept reveal" },
+          "id": { "$ref": "common.schema.json#/definitions/slug", "description": "Stable scene id. Asset and render manifests reference beats by this id." },
+          "beat_type": { "$ref": "common.schema.json#/definitions/beat_type" },
+          "beat": { "type": "string", "description": "Display name, e.g. 'Opening ritual: the Moonpost opens'" },
           "function": { "type": "string", "description": "What this beat does narratively" },
           "content": { "type": "string", "description": "What happens in this beat" },
           "learning_role": { "type": "string", "description": "What this beat does for learning" },
-          "duration_estimate": { "type": "string" }
+          "duration_seconds": { "$ref": "common.schema.json#/definitions/duration_seconds" }
         }
-      }
+      },
+      "allOf": [
+        { "contains": { "type": "object", "properties": { "beat_type": { "const": "opening_ritual" } } } },
+        { "contains": { "type": "object", "properties": { "beat_type": { "const": "wonder_trigger" } } } },
+        { "contains": { "type": "object", "properties": { "beat_type": { "const": "failed_attempt" } } } },
+        { "contains": { "type": "object", "properties": { "beat_type": { "const": "concept_reveal" } } } },
+        { "contains": { "type": "object", "properties": { "beat_type": { "const": "aha_moment" } } } },
+        { "contains": { "type": "object", "properties": { "beat_type": { "const": "retrieval" } } } },
+        { "contains": { "type": "object", "properties": { "beat_type": { "const": "transfer" } } } },
+        { "contains": { "type": "object", "properties": { "beat_type": { "const": "closing_ritual" } } } }
+      ]
     }
   }
 }

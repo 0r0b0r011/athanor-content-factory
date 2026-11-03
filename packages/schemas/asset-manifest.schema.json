@@ -1,17 +1,22 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://athanor-content-factory.local/schemas/asset-manifest.schema.json",
   "title": "Asset Manifest",
-  "description": "Complete inventory of media assets needed for production.",
+  "description": "Complete inventory of media assets needed for production. File: 09_asset_manifest.yaml. Asset ids must be unique; video_assets[].scene_id must match a beat id in 07_episode_timeline.yaml (checked by athanor validate).",
   "type": "object",
-  "required": ["project_id", "visual_assets", "audio_assets", "video_assets"],
+  "additionalProperties": false,
+  "required": ["artifact", "project_id", "visual_assets", "audio_assets", "video_assets"],
   "properties": {
-    "project_id": { "type": "string" },
+    "artifact": { "$ref": "common.schema.json#/definitions/artifact_meta" },
+    "project_id": { "$ref": "common.schema.json#/definitions/project_id" },
     "visual_assets": {
       "type": "array",
       "items": {
         "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "description", "format", "generation_prompt"],
         "properties": {
-          "id": { "type": "string" },
+          "id": { "$ref": "common.schema.json#/definitions/slug" },
           "description": { "type": "string" },
           "format": { "type": "string", "enum": ["illustration", "background", "character_sheet", "prop", "infographic", "map"] },
           "generation_prompt": { "type": "string" },
@@ -23,26 +28,33 @@
       "type": "array",
       "items": {
         "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "type"],
         "properties": {
-          "id": { "type": "string" },
+          "id": { "$ref": "common.schema.json#/definitions/slug" },
           "type": { "type": "string", "enum": ["voiceover", "sfx", "music", "ambient"] },
           "voice": { "type": "string" },
           "line": { "type": "string" },
           "mood": { "type": "string" },
-          "duration_estimate": { "type": "string" }
-        }
+          "duration_seconds": { "$ref": "common.schema.json#/definitions/duration_seconds" }
+        },
+        "if": { "type": "object", "properties": { "type": { "const": "voiceover" } } },
+        "then": { "required": ["voice", "line"] }
       }
     },
     "video_assets": {
       "type": "array",
       "items": {
         "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "scene_id", "shot", "duration_seconds"],
         "properties": {
-          "scene_id": { "type": "string" },
+          "id": { "$ref": "common.schema.json#/definitions/slug" },
+          "scene_id": { "$ref": "common.schema.json#/definitions/slug" },
           "shot": { "type": "string" },
           "camera": { "type": "string" },
           "motion": { "type": "string" },
-          "duration": { "type": "string" }
+          "duration_seconds": { "$ref": "common.schema.json#/definitions/duration_seconds" }
         }
       }
     }

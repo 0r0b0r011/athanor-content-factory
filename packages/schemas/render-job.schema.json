@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://athanor-content-factory.local/schemas/render-job.schema.json",
+  "title": "Render Job",
+  "description": "One render request for one scene, and its recorded result. Written by the render router; one file per job under renders/<provider>/<scene_id>.job.yaml.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["project_id", "scene_id", "provider", "capability", "input", "safety_profile"],
+  "properties": {
+    "project_id": { "$ref": "common.schema.json#/definitions/project_id" },
+    "scene_id": { "$ref": "common.schema.json#/definitions/slug", "description": "Beat id from 07_episode_timeline.yaml" },
+    "provider": { "$ref": "common.schema.json#/definitions/slug", "description": "Name of a registered render provider" },
+    "capability": { "type": "string" },
+    "derived_from": { "type": "array", "items": { "$ref": "common.schema.json#/definitions/artifact_ref" } },
+    "safety_profile": { "$ref": "common.schema.json#/definitions/age_band" },
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "prompt": { "type": "string" },
+        "negative_prompt": { "type": "string" },
+        "reference_image": { "type": "string" },
+        "reference_video": { "type": "string" },
+        "audio_tracks": { "type": "array", "items": { "type": "string" } },
+        "speaker_layout": { "type": "object" },
+        "duration_seconds": { "$ref": "common.schema.json#/definitions/duration_seconds" },
+        "aspect_ratio": { "type": "string", "pattern": "^[0-9]+:[0-9]+$" },
+        "resolution": { "type": "string", "pattern": "^[0-9]+p$" },
+        "fps": { "type": "integer", "minimum": 1 },
+        "seed": { "type": "integer" }
+      }
+    },
+    "output": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_path", "status"],
+      "properties": {
+        "status": { "type": "string", "enum": ["succeeded", "failed", "dry_run"] },
+        "artifact_path": { "type": "string" },
+        "artifact_sha256": { "$ref": "common.schema.json#/definitions/sha256" },
+        "metadata_path": { "type": "string" },
+        "render_log_path": { "type": "string" },
+        "seed": { "type": "integer" },
+        "model": { "type": "string" },
+        "checkpoint": { "type": "string" },
+        "cost": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "gpu_seconds": { "type": "number", "minimum": 0 },
+            "api_cost_usd": { "type": "number", "minimum": 0 },
+            "vram_gb_estimate": { "type": "number", "minimum": 0 }
+          }
+        }
+      }
+    }
+  }
+}

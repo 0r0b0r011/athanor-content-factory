@@ -121,7 +121,7 @@ Create this adapter under:
 packages/render-adapters/longcat-video/
 ```
 
-Proposed interface:
+Proposed interface (now split into `render-provider.schema.json` for capabilities and `render-job.schema.json` for per-scene input/output):
 
 ```yaml
 video_provider:
@@ -147,9 +147,9 @@ video_provider:
     aspect_ratio: string
     resolution: 480p | 720p
     fps: 16 | 25 | 30
-    safety_profile: age_6_8 | age_9_12 | age_13_15
+    safety_profile: age band, e.g. "6-8" | "9-12" | "13-15"
   output:
-    video_path: path
+    artifact_path: path
     metadata_path: path
     render_log_path: path
     seed: integer

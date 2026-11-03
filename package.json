@@ -1,9 +1,21 @@
 {
-  "name": "athanor-factory",
-  "version": "0.1.0",
+  "name": "athanor-content-factory",
+  "version": "0.2.0",
   "description": "Developmental Resonance Engine + Educational Story Genome — intent-to-content factory",
   "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.28.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "athanor": "apps/cli/athanor.mjs"
+  },
   "scripts": {
+    "test": "node --test \"apps/cli/test/*.test.mjs\"",
+    "athanor": "node apps/cli/athanor.mjs",
+    "athanor:validate": "node apps/cli/athanor.mjs validate",
+    "athanor:hash": "node apps/cli/athanor.mjs hash",
     "athanor:create": "node apps/cli/athanor.mjs create",
     "athanor:research": "node apps/cli/athanor.mjs research",
     "athanor:genome": "node apps/cli/athanor.mjs genome",
@@ -14,10 +26,15 @@
     "athanor:format": "node apps/cli/athanor.mjs format",
     "athanor:assets": "node apps/cli/athanor.mjs assets",
     "athanor:render": "node apps/cli/athanor.mjs render",
-    "athanor:validate": "node apps/cli/athanor.mjs validate",
+    "athanor:score": "node apps/cli/athanor.mjs score",
     "athanor:publish": "node apps/cli/athanor.mjs publish",
     "athanor:feedback": "node apps/cli/athanor.mjs feedback",
     "athanor:status": "node apps/cli/athanor.mjs status",
     "athanor:gate": "node apps/cli/athanor.mjs gate"
+  },
+  "dependencies": {
+    "ajv": "8.17.1",
+    "ajv-formats": "3.0.1",
+    "yaml": "2.8.1"
   }
 }

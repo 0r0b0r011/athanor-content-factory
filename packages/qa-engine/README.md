@@ -8,7 +8,7 @@ Quality assurance scoring and release gate enforcement.
 
 ## Output
 
-- `11_qa_report.md`
+- `11_qa_report.yaml` (validated against `schemas/qa-report.schema.json`)
 
 ## Scoring thresholds
 
