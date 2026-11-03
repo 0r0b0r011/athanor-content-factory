@@ -1,34 +1,32 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://athanor-content-factory.local/schemas/content-genome.schema.json",
   "title": "Content Genome",
-  "description": "Canonical blueprint for an educational content project. All downstream stages read from this schema; changes invalidate dependent artifacts.",
+  "description": "Canonical blueprint for an educational content project. File: 03_content_genome.yaml. All downstream stages read from it; any change makes artifacts that pin the old hash stale.",
   "type": "object",
-  "required": ["metadata", "learner_dna", "knowledge_dna", "resonance_dna", "narrative_dna", "format_dna"],
+  "additionalProperties": false,
+  "required": ["artifact", "metadata", "learner_dna", "knowledge_dna", "resonance_dna", "narrative_dna", "format_dna"],
   "properties": {
+    "artifact": { "$ref": "common.schema.json#/definitions/artifact_meta" },
     "metadata": {
       "type": "object",
+      "additionalProperties": false,
       "required": ["project_id", "concept", "domain", "age_band", "primary_formats"],
       "properties": {
-        "project_id": { "type": "string", "pattern": "^[a-z0-9_-]+$" },
+        "project_id": { "$ref": "common.schema.json#/definitions/project_id" },
         "concept": { "type": "string", "description": "Short conceptual title" },
         "domain": { "type": "string", "description": "Subject area, e.g. astronomy, biology, mathematics" },
-        "age_band": { "type": "string", "pattern": "^[0-9]+-[0-9]+$", "description": "e.g. 6-8, 9-12, 13-15" },
-        "primary_formats": {
-          "type": "array",
-          "items": { "type": "string", "enum": ["illustrated chapter story", "animated short", "classroom kit", "card game", "song", "app interaction", "social clip", "parent guide"] },
-          "minItems": 1
-        }
+        "age_band": { "$ref": "common.schema.json#/definitions/age_band" },
+        "primary_formats": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "common.schema.json#/definitions/format" } }
       }
     },
     "learner_dna": {
       "type": "object",
+      "additionalProperties": false,
       "required": ["cognitive_profile", "emotional_drivers", "identity_need", "pacing", "ambiguity_tolerance", "avoid"],
       "properties": {
         "cognitive_profile": { "type": "string", "description": "What the learner can do cognitively at this stage" },
-        "emotional_drivers": {
-          "type": "array",
-          "items": { "type": "string", "enum": ["competence", "discovery", "fairness", "friendship", "autonomy", "belonging", "purpose", "wonder", "mastery"] }
-        },
+        "emotional_drivers": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "common.schema.json#/definitions/emotional_driver" } },
         "identity_need": { "type": "string", "description": "What the learner needs to feel about themselves, e.g. 'I am becoming capable'" },
         "pacing": { "type": "string", "description": "Rhythm and tempo of content delivery" },
         "ambiguity_tolerance": { "type": "string", "description": "How much uncertainty the learner can handle" },
@@ -37,6 +35,7 @@
     },
     "knowledge_dna": {
       "type": "object",
+      "additionalProperties": false,
       "required": ["learning_objective", "misconception", "accurate_model", "retrieval_prompt", "transfer_task", "teach_back_moment"],
       "properties": {
         "learning_objective": { "type": "string", "description": "What the learner will be able to do, in measurable terms" },
@@ -50,11 +49,12 @@
     },
     "resonance_dna": {
       "type": "object",
+      "additionalProperties": false,
       "required": ["emotional_promise", "primary_hook", "central_mystery", "ritual", "symbolic_object", "replay_reason"],
       "properties": {
         "emotional_promise": { "type": "string", "description": "One-sentence emotional contract with the learner" },
-        "primary_hook": { "type": "string", "enum": ["discovery", "competence", "belonging", "purpose", "mystery", "creation", "fairness"] },
-        "secondary_hook": { "type": "string" },
+        "primary_hook": { "$ref": "common.schema.json#/definitions/hook_type" },
+        "secondary_hook": { "$ref": "common.schema.json#/definitions/hook_type" },
         "central_mystery": { "type": "string", "description": "The curiosity gap that drives engagement" },
         "ritual": { "type": "string", "description": "Recurring action or frame the learner performs" },
         "symbolic_object": { "type": "string", "description": "Physical or conceptual object that embodies the learning" },
@@ -63,6 +63,7 @@
     },
     "narrative_dna": {
       "type": "object",
+      "additionalProperties": false,
       "required": ["world_law", "setting", "protagonist_need", "conflict", "failed_attempt", "concept_reveal", "aha_moment", "resolution", "next_question"],
       "properties": {
         "world_law": { "type": "string", "description": "The rule the world operates on" },
@@ -79,12 +80,14 @@
     "format_dna": {
       "type": "object",
       "minProperties": 1,
+      "propertyNames": { "$ref": "common.schema.json#/definitions/format" },
       "additionalProperties": {
         "type": "object",
+        "additionalProperties": false,
         "properties": {
           "length": { "type": "string" },
           "style": { "type": "string" },
-          "aspect_ratios": { "type": "array", "items": { "type": "string" } },
+          "aspect_ratios": { "type": "array", "items": { "type": "string", "pattern": "^[0-9]+:[0-9]+$" } },
           "artifacts": { "type": "array", "items": { "type": "string" } }
         }
       }

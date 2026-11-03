@@ -4,7 +4,7 @@ Given a content genome, episode timeline, and world/character bibles, produce fo
 
 Each format inherits from the same genome. Do not invent new creative content — adapt what exists.
 
-## For storybook format
+## For `storybook`
 
 Produce a manuscript with:
 - Title
@@ -13,7 +13,7 @@ Produce a manuscript with:
 - Full narrative text (900-1200 words for age 6-8)
 - Illustration notes per spread
 
-## For animation script format
+## For `animated-short`
 
 Produce:
 - Scene breakdown with shot descriptions
@@ -24,7 +24,7 @@ Produce:
 - Subtitle text
 - Music and sound cues
 
-## For classroom kit format
+## For `classroom-kit`
 
 Produce:
 - Worksheet instructions
@@ -37,4 +37,4 @@ Output per format as a separate markdown document.
 
 Content genome: {genome_path}
 Episode timeline: {timeline_path}
-Target format: {format}
+Target format (slug from common.schema.json): {format}

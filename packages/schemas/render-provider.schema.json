@@ -1,79 +1,50 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://athanor-content-factory.local/schemas/render-provider.schema.json",
   "title": "Render Provider",
-  "description": "Capability contract for render backends such as LongCat-Video, MoneyPrinterTurbo, Higgsfield, ffmpeg, Hyperframes, and TTS/avatar systems.",
+  "description": "Capability descriptor for a render backend (LongCat-Video, MoneyPrinterTurbo, Higgsfield, ffmpeg, Hyperframes, TTS/avatar systems). Describes what a provider can do; a single render request is a render job (render-job.schema.json).",
   "type": "object",
-  "required": ["name", "mode", "capabilities", "input", "output"],
+  "additionalProperties": false,
+  "required": ["name", "mode", "capabilities"],
   "properties": {
-    "name": { "type": "string" },
-    "mode": {
-      "type": "string",
-      "enum": ["local_cpu", "local_gpu", "remote_api", "hybrid", "manual_handoff"]
-    },
+    "name": { "$ref": "common.schema.json#/definitions/slug" },
+    "mode": { "type": "string", "enum": ["local_cpu", "local_gpu", "remote_api", "hybrid", "manual_handoff"] },
     "capabilities": {
       "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
       "items": {
         "type": "string",
         "enum": [
-          "text_to_video",
-          "image_to_video",
-          "video_continuation",
-          "long_video",
-          "audio_text_to_avatar_video",
-          "audio_image_to_avatar_video",
-          "multi_speaker_avatar_video",
-          "text_to_speech",
-          "speech_to_text",
-          "speech_to_speech",
-          "image_generation",
-          "video_assembly",
-          "subtitle_rendering",
-          "html_to_video",
-          "music_generation"
+          "text_to_video", "image_to_video", "video_continuation", "long_video",
+          "audio_text_to_avatar_video", "audio_image_to_avatar_video", "multi_speaker_avatar_video",
+          "text_to_speech", "speech_to_text", "speech_to_speech",
+          "image_generation", "video_assembly", "subtitle_rendering", "html_to_video", "music_generation"
         ]
       }
     },
-    "input": {
-      "type": "object",
-      "properties": {
-        "scene_id": { "type": "string" },
-        "prompt": { "type": "string" },
-        "negative_prompt": { "type": "string" },
-        "reference_image": { "type": "string" },
-        "reference_video": { "type": "string" },
-        "audio_tracks": { "type": "array", "items": { "type": "string" } },
-        "duration_seconds": { "type": "number" },
-        "aspect_ratio": { "type": "string" },
-        "resolution": { "type": "string" },
-        "fps": { "type": "integer" },
-        "safety_profile": { "type": "string" }
-      }
-    },
-    "output": {
-      "type": "object",
-      "properties": {
-        "artifact_path": { "type": "string" },
-        "metadata_path": { "type": "string" },
-        "render_log_path": { "type": "string" },
-        "seed": { "type": "integer" },
-        "cost": {
-          "type": "object",
-          "properties": {
-            "gpu_seconds": { "type": "number" },
-            "api_cost_usd": { "type": "number" },
-            "vram_gb_estimate": { "type": "number" }
-          }
-        }
-      }
-    },
+    "supported_resolutions": { "type": "array", "items": { "type": "string", "pattern": "^[0-9]+p$" } },
+    "supported_fps": { "type": "array", "items": { "type": "integer", "minimum": 1 } },
     "constraints": {
       "type": "object",
+      "additionalProperties": false,
       "properties": {
         "requires_cuda": { "type": "boolean" },
         "requires_network": { "type": "boolean" },
         "supports_batching": { "type": "boolean" },
-        "max_duration_seconds": { "type": "number" },
+        "max_duration_seconds": { "$ref": "common.schema.json#/definitions/duration_seconds" },
+        "min_vram_gb": { "type": "number", "minimum": 0 },
         "notes": { "type": "string" }
+      }
+    },
+    "license": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "weights", "commercial_use"],
+      "properties": {
+        "code": { "type": "string", "description": "SPDX id of the code licence" },
+        "weights": { "type": "string", "description": "Licence of model weights, or 'n/a'" },
+        "commercial_use": { "type": "string", "enum": ["allowed", "restricted", "prohibited", "unverified"] }
       }
     }
   }

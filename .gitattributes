@@ -1,0 +1,2 @@
+# Artifact hashes are computed on LF-normalised text; keep checkouts consistent.
+* text=auto eol=lf

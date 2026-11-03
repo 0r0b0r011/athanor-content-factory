@@ -1,10 +1,18 @@
+artifact:
+  schema_version: "1.0.0"
+  version: 2
+  derived_from: []
+  generated_by: "human"
 project_id: "moon-as-timekeeper"
 concept: "Moon phases as timekeeping"
 audience: "Children ages 6-8, early readers, curious about the night sky"
 learning_goal: "Learner can explain why the moon appears to change shape over a lunar cycle"
 emotional_goal: "The night sky feels readable and the child feels capable of understanding it"
 target_age_band: "6-8"
-primary_medium: "multi-format"
+formats:
+  - storybook
+  - animated-short
+  - classroom-kit
 constraints:
   - "Maximum 1200 words for storybook format"
   - "No abstract orbital geometry without embodied analogue"

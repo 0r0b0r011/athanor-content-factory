@@ -1,0 +1,154 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://athanor-content-factory.local/schemas/common.schema.json",
+  "title": "Athanor shared definitions",
+  "description": "Single source for vocabularies and building blocks shared by every artifact schema. Reference with {\"$ref\": \"common.schema.json#/definitions/<name>\"}; never copy an enum into another schema.",
+  "definitions": {
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$",
+      "description": "Must equal the project directory name."
+    },
+    "age_band": {
+      "type": "string",
+      "pattern": "^[0-9]{1,2}-[0-9]{1,2}$",
+      "description": "Inclusive age range, e.g. 6-8, 9-12, 13-15. Also used as the render safety profile."
+    },
+    "format": {
+      "type": "string",
+      "enum": [
+        "storybook",
+        "animated-short",
+        "classroom-kit",
+        "parent-guide",
+        "card-game",
+        "social-clip",
+        "app-interaction",
+        "song"
+      ],
+      "description": "Canonical output format slug. Each slug maps to one directory under packages/format-adapters/."
+    },
+    "hook_type": {
+      "type": "string",
+      "enum": ["discovery", "competence", "belonging", "purpose", "mystery", "creation", "fairness"]
+    },
+    "emotional_driver": {
+      "type": "string",
+      "enum": ["competence", "discovery", "fairness", "friendship", "autonomy", "belonging", "purpose", "wonder", "mastery"]
+    },
+    "beat_type": {
+      "type": "string",
+      "enum": [
+        "opening_ritual",
+        "wonder_trigger",
+        "failed_attempt",
+        "concept_reveal",
+        "aha_moment",
+        "retrieval",
+        "transfer",
+        "closing_ritual"
+      ]
+    },
+    "production_state": {
+      "type": "string",
+      "enum": [
+        "intent_defined",
+        "research_complete",
+        "developmental_fit_complete",
+        "genome_complete",
+        "resonance_approved",
+        "world_bible_complete",
+        "characters_complete",
+        "timeline_complete",
+        "format_outputs_ready",
+        "assets_planned",
+        "draft_rendered",
+        "qa_passed",
+        "published",
+        "feedback_collected",
+        "genome_updated"
+      ]
+    },
+    "gate": {
+      "type": "string",
+      "enum": ["concept_gate", "genome_gate", "story_gate", "production_gate", "release_gate"]
+    },
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "semver": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "duration_seconds": {
+      "type": "number",
+      "minimum": 0
+    },
+    "artifact_ref": {
+      "type": "object",
+      "description": "Pins an upstream artifact by content hash. If the upstream file changes, this artifact is stale.",
+      "required": ["path", "sha256"],
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "type": "string",
+          "pattern": "^(?!/)(?!.*\\.\\.)[A-Za-z0-9_./-]+$",
+          "description": "Path relative to the project directory."
+        },
+        "sha256": { "$ref": "#/definitions/sha256" }
+      }
+    },
+    "artifact_meta": {
+      "type": "object",
+      "description": "Versioning header carried by every project artifact.",
+      "required": ["schema_version", "version", "derived_from"],
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "$ref": "#/definitions/semver",
+          "description": "Version of packages/schemas this artifact was written against."
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Revision number of this artifact. Increment on every substantive change."
+        },
+        "derived_from": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/artifact_ref" },
+          "description": "Upstream artifacts this one was produced from, pinned by hash. Empty only for the intent."
+        },
+        "generated_by": {
+          "type": "string",
+          "description": "'human', or the worker name and model that produced this revision."
+        },
+        "approved_by": {
+          "type": "string",
+          "description": "Human who approved this revision at its gate."
+        },
+        "updated_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "json_patch": {
+      "type": "array",
+      "description": "RFC 6902 JSON Patch applied to the content genome.",
+      "items": {
+        "type": "object",
+        "required": ["op", "path"],
+        "additionalProperties": false,
+        "properties": {
+          "op": { "type": "string", "enum": ["add", "remove", "replace", "move", "copy", "test"] },
+          "path": { "type": "string", "pattern": "^(/[^/]*)*$" },
+          "from": { "type": "string", "pattern": "^(/[^/]*)*$" },
+          "value": {},
+          "reason": { "type": "string", "description": "Why this change is being made (Athanor extension; ignored by patch engines)." }
+        }
+      }
+    }
+  }
+}

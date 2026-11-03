@@ -15,13 +15,15 @@ Given a content genome, resonance spec, world bible, and character bible, produc
 
 ## Per beat
 
-- beat: Name
+- id: stable slug used as the scene id by asset and render manifests (e.g. `moonpost-opening`)
+- beat_type: one of opening_ritual, wonder_trigger, failed_attempt, concept_reveal, aha_moment, retrieval, transfer, closing_ritual
+- beat: Display name
 - function: Narrative purpose
 - content: What happens
 - learning_role: What this beat does for learning
-- duration_estimate: Time/length
+- duration_seconds: number
 
-Output as valid YAML matching episode-timeline.schema.json.
+Output as valid YAML matching episode-timeline.schema.json. Every beat type must appear at least once. Include the `artifact` versioning header: `schema_version`, `version`, and `derived_from` pinning each input file by sha256 (`athanor hash <file>`). See docs/versioning.md.
 
 Content genome: {genome_path}
 Resonance spec: {resonance_path}

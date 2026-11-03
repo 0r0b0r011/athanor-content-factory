@@ -24,7 +24,7 @@ The **Educational Story Genome** builder. Transforms a research pack and develop
 
 ```python
 class GenomeEngine:
-    def build(research_pack: dict, dev_fit: dict) -> dict:
+    def build(self, intent: dict, research_pack: str, dev_fit: dict) -> dict:
         """Return a validated content_genome dict."""
         ...
 ```
